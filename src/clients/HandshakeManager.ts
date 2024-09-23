@@ -56,7 +56,7 @@ export class HandshakeManager {
      */
     public async validateSecureConnection(): Promise<boolean> {
         if (!this.cryptoManager || !this.goCorePublicKey) {
-            throw new Error('Handshake not completed. CryptoManager is not initialized.');
+            throw new Error('Handshake not initiated. CryptoManager is not initialized.');
         }
 
         // Create a random string for validation
@@ -80,11 +80,12 @@ export class HandshakeManager {
             const decryptedResponse = this.cryptoManager.decryptWithPrivateKey(encryptedResponse);
             const decryptedChallenge = this.cryptoManager.decryptWithPrivateKey(backendChallenge)
             console.log('Decrypted response from Go core:', decryptedResponse);
-            console.log(`Decrypted final challenge from server: `, backendChallenge)
+            console.log(`Decrypted final challenge from server: `, decryptedChallenge)
 
             // Verify if the decrypted response matches the original random string
             if (decryptedResponse === randomString) {
                 console.log('Secure connection verified successfully!');
+                await this.finalizeHandshake(decryptedChallenge)
                 return true;
             } else {
                 throw new Error('Failed to validate secure connection. Decrypted response does not match.');
@@ -99,6 +100,34 @@ export class HandshakeManager {
             }
         }
         return false;
+    }
+
+    public async finalizeHandshake(finalSecret: string): Promise<boolean> {
+        if (!this.cryptoManager || !this.goCorePublicKey) {
+            throw new Error('Handshake not initiated. CryptoManager is not initialized.');
+        }
+
+        const encryptedSecret = this.cryptoManager.encryptWithPublicKey(this.goCorePublicKey, finalSecret)
+        console.log(`Encrypted final challenge secret: `, encryptedSecret)
+
+        // Send to API
+        try {
+            const postData = JSON.stringify({ secret: encryptedSecret })
+            const { response } = await this.communicationClient.post('/api/handshake-success', postData)
+
+            console.log(response)
+            const jsonResponse = JSON.parse(response)
+            console.log(`Handshake completed succesfully! `, jsonResponse)
+        } catch (error) {
+            console.error(error)
+            console.error('Error during validating secure connection:', error);
+            if (error instanceof Error) {
+                console.error('Stack Trace:', error.stack);
+            } else {
+                console.error('Raw error object:', error);
+            }
+        }
+        return false
     }
 
     /**
