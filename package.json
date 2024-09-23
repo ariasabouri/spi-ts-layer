@@ -4,7 +4,9 @@
   "description": "ts-layer for setting up installation handlers",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "build": "tsc",
+    "start": "ts-node index.ts",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/ariasabouri/spi-ts-layer/issues"
   },
-  "homepage": "https://github.com/ariasabouri/spi-ts-layer#readme"
+  "homepage": "https://github.com/ariasabouri/spi-ts-layer#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.5.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
 }

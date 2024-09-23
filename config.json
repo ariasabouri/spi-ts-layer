@@ -1,0 +1,66 @@
+{
+    "server": {
+        "hostname": "localhost",
+        "port": 8443,
+        "public_key": "certs/ts_public_key.pem",
+        "private_key": "certs/ts_private_key.pem"
+    },
+    "packages": [
+        {
+            "name": "webServerPackage",
+            "enabled": true,
+            "handlers": [
+                {
+                    "name": "installApache",
+                    "enabled": true
+                },
+                {
+                    "name": "installNginx",
+                    "enabled": false
+                },
+                {
+                    "name": "installPhp",
+                    "enabled": true,
+                    "version": "8.3"
+                },
+                {
+                    "name": "installPhpModules",
+                    "enabled": true,
+                    "version": "8.3"
+                },
+                {
+                    "name": "installRedis",
+                    "enabled": true
+                },
+                {
+                    "name": "installCertbot",
+                    "enabled": true
+                }
+            ]
+        },
+        {
+            "name": "databasePackage",
+            "enabled": true,
+            "handlers": [
+                {
+                    "name": "installMySQL",
+                    "enabled": true
+                }
+            ]
+        },
+        {
+            "name": "scheduler",
+            "enabled": true,
+            "handler": [
+                {
+                    "name": "installJava",
+                    "enabled": true
+                },
+                {
+                    "name": "installJenkins",
+                    "enabled": true
+                }
+            ]
+        }
+    ]
+}
