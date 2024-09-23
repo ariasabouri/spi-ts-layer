@@ -1,0 +1,19 @@
+{
+  "name": "spi-ts-layer",
+  "version": "0.0.1",
+  "description": "ts-layer for setting up installation handlers",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ariasabouri/spi-ts-layer.git"
+  },
+  "author": "Aria Sabouri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ariasabouri/spi-ts-layer/issues"
+  },
+  "homepage": "https://github.com/ariasabouri/spi-ts-layer#readme"
+}
